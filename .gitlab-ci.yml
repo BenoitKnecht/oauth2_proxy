@@ -1,0 +1,24 @@
+stages:
+  - build
+
+variables:
+  PKG: github.com/bitly/oauth2_proxy
+
+before_script:
+  - mkdir -p /go/src/github.com/bitly
+  - ln -s $CI_PROJECT_DIR /go/src/$PKG
+  - cd /go/src/$PKG
+
+build:
+  stage: build
+  tags:
+    - docker
+  image: golang:1.9
+  script:
+    - go get ./...
+    - go build
+    - mkdir $CI_PROJECT_NAME-${CI_COMMIT_TAG:-$CI_COMMIT_REF_NAME}
+    - mv oauth2_proxy $CI_PROJECT_NAME-${CI_COMMIT_TAG:-$CI_COMMIT_REF_NAME}
+  artifacts:
+    untracked: true
+    name: $CI_PROJECT_NAME-${CI_COMMIT_TAG:-$CI_COMMIT_REF_NAME}
