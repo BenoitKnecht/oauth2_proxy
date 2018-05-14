@@ -1,4 +1,4 @@
-FROM golang:1.9 as build
+FROM golang:1.10 as build
 
 COPY . /go/src/github.com/bitly/oauth2_proxy
 
@@ -7,7 +7,7 @@ WORKDIR /go/src/github.com/bitly/oauth2_proxy
 RUN go get ./...
 RUN CGO_ENABLED=0 go build
 
-FROM alpine:3.6
+FROM alpine:3.7
 
 RUN apk --update add ca-certificates gettext && rm -rf /var/cache/apk/*
 
