@@ -17,4 +17,6 @@ VOLUME /etc/oauth2/
 
 EXPOSE 80
 
+HEALTHCHECK --interval=10s --timeout=3s --retries=1 CMD wget -qO/dev/null http://localhost/ping
+
 ENTRYPOINT ["oauth2_proxy", "-config=/etc/oauth2/proxy.cfg"]
